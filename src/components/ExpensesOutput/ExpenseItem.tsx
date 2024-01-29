@@ -1,13 +1,23 @@
 import {Pressable, StyleSheet, Text, View} from "react-native";
 import {GlobalStyles} from "../../Constants/styles";
+import {NavigationProp, useNavigation} from "@react-navigation/native";
 
-export default function ExpenseItem({description, date, amount}: {
+export default function ExpenseItem({id, description, date, amount}: {
+    id: string,
     description: string,
     date: Date,
     amount: number
 }) {
+
+    const navigation: NavigationProp<any> = useNavigation();
+
+    const goToManageExpense = () => {
+        navigation.navigate('Manage Expenses', {expenseId: id})
+    }
+
     return (
-        <Pressable style={styles.container}>
+        <Pressable style={({pressed}) => [styles.container, pressed && styles.buttonPress]}
+                   onPress={goToManageExpense}>
             <View>
                 <Text style={styles.descriptionText}>{description}</Text>
                 <Text style={styles.dateText}>{`${date.toDateString()}`}</Text>
@@ -32,10 +42,12 @@ const styles = StyleSheet.create({
     },
     dateText: {
         fontSize: 15,
-        color:'#170101',
+        color: '#170101',
         fontStyle: 'italic'
     },
-
+    buttonPress: {
+        opacity: 0.8
+    },
     descriptionText: {
         fontWeight: "bold",
         fontSize: 18,

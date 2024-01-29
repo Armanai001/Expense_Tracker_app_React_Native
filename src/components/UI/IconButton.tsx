@@ -7,7 +7,11 @@ export default function IconButton({name, size, color, onPress}: {
     color: string,
     onPress: () => void
 }) {
-    return <Pressable onPress={onPress} style={({pressed}) => pressed ? styles.buttonPress : styles.container}>
+    return <Pressable onPress={onPress}
+                      style={({ pressed }) => [
+                          styles.container,
+                          pressed && styles.buttonPress,
+                      ]}>
         <View>
             <Ionicons name={name} color={color} size={size} />
         </View>
@@ -20,6 +24,5 @@ const styles = StyleSheet.create({
     },
     buttonPress: {
         opacity: 0.8,
-        marginHorizontal: 20,
     }
 })
