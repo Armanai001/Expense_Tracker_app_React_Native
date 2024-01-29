@@ -6,6 +6,7 @@ import RecentExpenses from "./src/screens/RecentExpenses";
 import AllExpenses from "./src/screens/AllExpenses";
 import ManageExpenses from "./src/screens/ManageExpenses";
 import {GlobalStyles} from "./src/Constants/styles";
+import IconButton from "./src/components/UI/IconButton";
 import {Ionicons} from "@expo/vector-icons";
 
 
@@ -17,18 +18,29 @@ function ExpenseOverview() {
         headerStyle: {backgroundColor: GlobalStyles.colors.primary500},
         headerTintColor: 'white',
         tabBarStyle: {backgroundColor: GlobalStyles.colors.primary500},
-        tabBarActiveTintColor: GlobalStyles.colors.accent500
-    }}>
+        tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        headerRight: ({tintColor}) => {
+            return <IconButton name='add'
+                               color={tintColor || 'white'}
+                               size={24}
+                               onPress={() => {
+                               }}
+            />
+        }
+    }}
+    >
         <BottomTabs.Screen name="Recent Expenses"
                            component={RecentExpenses}
                            options={{
-                               tabBarIcon: ({color, size}) => <Ionicons name="hourglass" color={color} size={size}/>
+                               tabBarIcon: ({color, size}) => <Ionicons name="hourglass" color={color}
+                                                                        size={size}/>
                            }}
         />
         <BottomTabs.Screen name="All Expenses"
                            component={AllExpenses}
                            options={{
-                               tabBarIcon: ({color, size}) => <Ionicons name="calendar" color={color} size={size}/>
+                               tabBarIcon: ({color, size}) => <Ionicons name="calendar" color={color}
+                                                                        size={size}/>
                            }}
         />
     </BottomTabs.Navigator>
