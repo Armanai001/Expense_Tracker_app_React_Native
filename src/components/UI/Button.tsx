@@ -1,8 +1,12 @@
 import {Pressable, StyleSheet, Text} from "react-native";
 import {GlobalStyles} from "../../Constants/styles";
 
-export default function Button({title}: { title: string }) {
-    return <Pressable style={styles.container}>
+export default function Button({title, onPress}: { title: string, onPress: () => void }) {
+    return <Pressable onPress={onPress}
+                      style={({pressed}) => [
+                          styles.container,
+                          pressed && styles.pressed,
+                      ]}>
         <Text style={styles.text}>
             {title}
         </Text>
@@ -25,5 +29,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: GlobalStyles.colors.primary800
+    },
+    pressed: {
+        opacity: 0.8
     }
 })
