@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, View} from "react-native";
+import {FlatList, StyleSheet, Text, View} from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
 type Expense = {
@@ -16,15 +16,28 @@ const renderExpensesItem = (itemData: { index: number, item: Expense }) => {
 
 export default function ExpensesList({expenses}: { expenses: Expense[] }) {
     return <View style={styles.container}>
-        <FlatList data={expenses}
-                  renderItem={renderExpensesItem}
-                  keyExtractor={(item) => item.id}
-        />
+        {
+            expenses.length !== 0 ? <FlatList data={expenses}
+                                              renderItem={renderExpensesItem}
+                                              keyExtractor={(item) => item.id}
+                /> :
+                <Text style={styles.emptyText}>Noting to show here.</Text>
+        }
+
     </View>
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+    },
+    emptyText: {
+        color: 'white',
+        fontSize: 25,
+        textAlign: 'center',
+        flex: 1,
+        alignSelf: 'center',
+        marginTop: "50%",
+        fontWeight:'bold'
     }
 })
