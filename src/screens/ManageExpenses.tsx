@@ -17,6 +17,7 @@ export default function ManageExpenses({route, navigation}: { route: any, naviga
         date: '',
         description: ''
     });
+    const [isValid, setIsValid] = useState(false)
 
 
     useLayoutEffect(() => {
@@ -30,7 +31,7 @@ export default function ManageExpenses({route, navigation}: { route: any, naviga
                 date: filteredExpense.date.toISOString().slice(0, 10),
                 description: filteredExpense.description
             })
-
+            setIsValid(true)
         }
     }, [isEditing, navigation])
 
@@ -41,12 +42,13 @@ export default function ManageExpenses({route, navigation}: { route: any, naviga
             date: new Date(values.date),
             description: values.description
         }
-        if (isEditing) {
-            expenseCtx.updateExpense(expenseId, expenseData)
-        } else {
-            expenseCtx.addExpense(expenseData)
+
+
+        if (!isValid) {
+            return;
         }
 
+        isEditing ? expenseCtx.updateExpense(expenseId, expenseData) : expenseCtx.addExpense(expenseData)
         navigation.goBack();
     }
 
@@ -66,7 +68,7 @@ export default function ManageExpenses({route, navigation}: { route: any, naviga
                 {isEditing ? 'Edit Your Expense' : 'Add Your Expense'}
             </Text>
 
-            <ExpenseForm values={values} setValues={setValues}/>
+            <ExpenseForm values={values} setValues={setValues} isValid={isValid} setIsValid={setIsValid}/>
 
 
             <View style={styles.buttons}>

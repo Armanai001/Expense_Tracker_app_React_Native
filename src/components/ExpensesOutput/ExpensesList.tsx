@@ -1,12 +1,6 @@
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import ExpenseItem from "./ExpenseItem";
 
-type Expense = {
-    id: string,
-    description: string,
-    amount: number,
-    date: Date
-}
 
 const renderExpensesItem = (itemData: { index: number, item: Expense }) => {
     return (
@@ -38,6 +32,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'center',
         marginTop: "50%",
-        fontWeight:'bold'
+        fontWeight: 'bold'
     }
 })

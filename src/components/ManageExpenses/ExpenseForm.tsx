@@ -1,24 +1,35 @@
-import {View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import Input from "./Input";
 import {Dispatch, SetStateAction} from "react";
+import {GlobalStyles} from "../../Constants/styles";
 
-interface valuesInterface {
-    amount: string,
-    date: string,
-    description: string
-}
 
-export default function ExpenseForm({values, setValues}: {
-    values: valuesInterface,
-    setValues: Dispatch<SetStateAction<valuesInterface>>
+export default function ExpenseForm({values, setValues, isValid, setIsValid}: {
+    values: ExpenseFormInterface,
+    setValues: Dispatch<SetStateAction<ExpenseFormInterface>>
+    isValid: boolean,
+    setIsValid: Dispatch<SetStateAction<boolean>>;
 }) {
 
     const handleInput = (identifier: string, value: string) => {
-        setValues((currentValues: valuesInterface) => {
-            return {
+        setValues((currentValues: ExpenseFormInterface) => {
+            const result = {
                 ...currentValues,
                 [identifier]: value
             }
+
+            // Adding validation
+            const validAmount = !isNaN(+result.amount) && +result.amount > 0
+            const validDate = result.date.toString() !== 'Invalid Date'
+            const validDescription = result.description.trim().length > 0
+
+            if (!validAmount || !validDate || !validDescription) {
+                setIsValid(false)
+            } else {
+                setIsValid(true)
+            }
+
+            return result
         })
     }
 
@@ -29,7 +40,7 @@ export default function ExpenseForm({values, setValues}: {
                    keyboardType: 'decimal-pad',
                    placeholder: "e.g. 200",
                    onChangeText: (value: string) => handleInput('amount', value),
-                   value: values.amount
+                   value: values.amount,
                }}/>
 
         <Input label="Date"
@@ -37,7 +48,7 @@ export default function ExpenseForm({values, setValues}: {
                    placeholder: "YYYY-MM-DD",
                    maxLength: 10,
                    onChangeText: (value: string) => handleInput('date', value),
-                   value: values.date
+                   value: values.date,
                }}/>
 
         <Input label="Description"
@@ -45,7 +56,22 @@ export default function ExpenseForm({values, setValues}: {
                    multiline: true,
                    placeholder: "e.g. Buying a book",
                    onChangeText: (value: string) => handleInput('description', value),
-                   value: values.description
+                   value: values.description,
                }}/>
+
+        <Text style={styles.InvalidText}>
+            {!isValid && "Invalid Input"}
+        </Text>
+
     </View>
 }
+
+const styles = StyleSheet.create({
+    InvalidText: {
+        color: GlobalStyles.colors.error500,
+        textAlign: 'center',
+        margin: 20,
+        fontSize: 20,
+        fontWeight: "bold"
+    }
+})

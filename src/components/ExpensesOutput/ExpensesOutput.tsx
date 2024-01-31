@@ -4,13 +4,6 @@ import ExpensesList from "./ExpensesList";
 import {GlobalStyles} from "../../Constants/styles";
 
 
-type Expense = {
-    id: string,
-    description: string,
-    amount: number,
-    date: Date
-}
-
 export default function ExpensesOutput({expenses, expensesPeriod}: { expenses: Expense[], expensesPeriod: string }) {
     return <View style={styles.container}>
         <ExpensesSummary expenses={expenses} periodName={expensesPeriod}/>

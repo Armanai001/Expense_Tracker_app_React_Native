@@ -2,12 +2,7 @@ import {Pressable, StyleSheet, Text, View} from "react-native";
 import {GlobalStyles} from "../../Constants/styles";
 import {NavigationProp, useNavigation} from "@react-navigation/native";
 
-export default function ExpenseItem({id, description, date, amount}: {
-    id: string,
-    description: string,
-    date: Date,
-    amount: number
-}) {
+export default function ExpenseItem({id, description, date, amount}: Expense) {
 
     const navigation: NavigationProp<any> = useNavigation();
 

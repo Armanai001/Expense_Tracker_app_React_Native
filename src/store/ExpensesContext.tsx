@@ -1,22 +1,5 @@
 import {createContext, ReactNode, useReducer} from "react";
 
-// Interface for single expense object
-interface Expense {
-    id: string;
-    description: string;
-    amount: number;
-    date: Date;
-}
-
-
-// Interface for expensesContext
-interface ExpensesContextType {
-    expenses: Expense[];
-    addExpense: (expense: Omit<Expense, 'id'>) => void;
-    deleteExpense: (id: string) => void;
-    updateExpense: (id: string, expenseData: Omit<Expense, 'id'>) => void;
-}
-
 
 // Main context which will be used to get and set expenses data
 export const ExpensesContext = createContext<ExpensesContextType>({
