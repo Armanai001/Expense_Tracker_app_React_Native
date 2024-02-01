@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {useContext, useLayoutEffect, useState} from "react";
 import ExpenseForm from "../components/ManageExpenses/ExpenseForm";
 import {GlobalStyles} from "../Constants/styles";
@@ -64,27 +64,31 @@ export default function ManageExpenses({route, navigation}: { route: any, naviga
 
     return <>
         <View style={styles.container}>
-            <Text style={styles.title}>
-                {isEditing ? 'Edit Your Expense' : 'Add Your Expense'}
-            </Text>
+            <ScrollView>
 
-            <ExpenseForm values={values} setValues={setValues} isValid={isValid} setIsValid={setIsValid}/>
+                <Text style={styles.title}>
+                    {isEditing ? 'Edit Your Expense' : 'Add Your Expense'}
+                </Text>
+
+                <ExpenseForm values={values} setValues={setValues} isValid={isValid} setIsValid={setIsValid}/>
 
 
-            <View style={styles.buttons}>
-                <Button title='Cancel' onPress={handleCancel}/>
-                {
-                    isEditing &&
-                    <View style={styles.delete}>
-                        <IconButton name="trash"
-                                    size={40}
-                                    color="#cc3030"
-                                    onPress={handleDelete}/>
-                    </View>
-                }
-                <Button title={isEditing ? 'Update' : 'Add'} onPress={handleSubmit}/>
-            </View>
+                <View style={styles.buttons}>
+                    <Button title='Cancel' onPress={handleCancel}/>
+                    {
+                        isEditing &&
+                        <View style={styles.delete}>
+                            <IconButton name="trash"
+                                        size={40}
+                                        color="#cc3030"
+                                        onPress={handleDelete}/>
+                        </View>
+                    }
+                    <Button title={isEditing ? 'Update' : 'Add'} onPress={handleSubmit}/>
+                </View>
+            </ScrollView>
         </View>
+
     </>
 }
 

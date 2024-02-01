@@ -18,16 +18,34 @@ export default function ExpenseForm({values, setValues, isValid, setIsValid}: {
                 [identifier]: value
             }
 
-            // Adding validation
+            // Adding validations
+            function validDate(dt: string) {
+                if (result.date.trim().length === 0) {
+                    result.date = new Date().toISOString().slice(0, 10);
+                    return true
+                }
+                const extract = dt.split('-')
+                const newDate = new Date(`${extract[0]}-${extract[1]}-${extract[2]}`);
+
+                if (extract.length != 3 && extract[0].length != 4) {
+                    return false;
+                } else if (0 >= (+extract[1]) || (+extract[1]) > 12) {
+                    return false;
+                } else if (0 >= (+extract[2]) || (+extract[2]) > 31) {
+                    return false;
+                } else return newDate.toString() !== 'Invalid Date';
+            }
+
+
             const validAmount = !isNaN(+result.amount) && +result.amount > 0
-            const validDate = result.date.toString() !== 'Invalid Date'
             const validDescription = result.description.trim().length > 0
 
-            if (!validAmount || !validDate || !validDescription) {
+            if (!validAmount || !validDate(result.date.toString()) || !validDescription) {
                 setIsValid(false)
             } else {
                 setIsValid(true)
             }
+
 
             return result
         })
@@ -45,11 +63,13 @@ export default function ExpenseForm({values, setValues, isValid, setIsValid}: {
 
         <Input label="Date"
                textInputConfigurations={{
-                   placeholder: "YYYY-MM-DD",
+                   placeholder: new Date().toISOString().slice(0, 10),
+                   keyboardType: 'decimal-pad',
                    maxLength: 10,
-                   onChangeText: (value: string) => handleInput('date', value),
+                   onChangeText: (value: string) => handleInput('date', value.replace('.', '-')),
                    value: values.date,
                }}/>
+        <Text style={styles.dateNote}>Use . for separating dates</Text>
 
         <Input label="Description"
                textInputConfigurations={{
@@ -73,5 +93,10 @@ const styles = StyleSheet.create({
         margin: 20,
         fontSize: 20,
         fontWeight: "bold"
+    },
+    dateNote: {
+        textAlign: "center",
+        marginBottom: 12,
+        color: 'white'
     }
 })
