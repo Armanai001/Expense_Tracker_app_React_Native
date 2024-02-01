@@ -21,4 +21,5 @@ interface ExpensesContextType {
     addExpense: (expense: Omit<Expense, 'id'>) => void;
     deleteExpense: (id: string) => void;
     updateExpense: (id: string, expenseData: Omit<Expense, 'id'>) => void;
+    isLoading: number
 }
